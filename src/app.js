@@ -7,30 +7,19 @@ const app = express(); //creating an instance of an expressjs application
 
 //we can add as many route handlers as we want!!
 
-app.use(
+app.post(
     "/user",
     //next is done to run the 2nd Response!!
     (req,res,next)=>{
         console.log("handling the route user!!");
-        res.send("Response!!"); //suppose we are not handling it here and want to route to the next 2nd response then,
+        // res.send("Response!!"); //suppose we are not handling it here and want to route to the next 2nd response then,
         next(); //this forwards the router to the next request handler
     },
-    //unless we dont put next function in this event handler, this event handler will run in itself
-    (req,res,next)=>{
-        console.log("Handling the route user 2!!");
-        res.send("2nd Response!!"); //sends the response back to Postman API and finishes the function thereafter
-        next();
-    },
-    (req,res,next)=>{
-        console.log("Handling the route user 3!!");
-        res.send("3rd Response!!"); //sends the response back to Postman API and finishes the function thereafter
-        next();
-    },
-    (req,res)=>{
-        console.log("Handling the route user 4!!");
-        res.send("4th Response!!"); //sends the response back to Postman API and finishes the function thereafter
-    }
 );
+app.post("/user", (req,res,next)=>{
+    console.log("Handling the route user!");
+    res.send("2nd route handler");
+});
 
 //test this GET api call on POSTMAN API TESTER
 app.get("/user", (req,res)=>{
