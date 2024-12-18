@@ -7,9 +7,10 @@ const app = express(); //creating an instance of an expressjs application
 
 //test this GET api call on POSTMAN API TESTER
 app.get("/user", (req,res)=>{
+    console.log(req.params)
     res.send({firstName : "Akshay", lastName : "Saini"})
 })
-app.post("/user", (req,res)=>{
+app.post("/user/:userId", (req,res)=>{
     res.send("Saved data to the database successfully")
 })
 
