@@ -21,14 +21,26 @@ app.post("/user", (req,res,next)=>{
     res.send("2nd route handler");
 });
 
+//this route overrides every other route 
+app.use("/", (req,res,next)=>{
+    // res.send("Namaste from the dashboard!");
+    next();
+});
+
+
 //test this GET api call on POSTMAN API TESTER
-app.get("/user", (req,res)=>{
-    console.log(req.params)
-    res.send({firstName : "Akshay", lastName : "Saini"})
-})
-app.post("/user", (req,res)=>{
+app.get("/user", (req,res,next)=>{
+    // res.send({firstName : "Akshay", lastName : "Saini"})
+    next();
+}),
+app.post("/user", (req,res,next)=>{
     res.send("Saved data to the database successfully")
-})
+    next();
+}),app.post("/user", (req,res)=>{
+    res.send("Saved data to the database successfully")
+}
+);
+
 
 
 app.use("/hello/2", (req,res)=>{
@@ -45,15 +57,13 @@ app.use("/test", (req,res)=>{
     res.send("Hello from the server!");
 });
 
-//this route overrides every other route 
-app.use("/", (req,res)=>{
-    res.send("Namaste from the dashboard!");
-});
 
 
-app.listen(7777, ()=>{
-    console.log("Server id successfully listening on PORT:7777..")
+app.listen(3333, ()=>{
+    console.log("Server id successfully listening on PORT:3333..")
 });
 
 
 //run the function in the terminal using (node src/app.js)
+
+
