@@ -3,6 +3,7 @@ const express = require("express");
 // Creating a web server using express
 const app = express(); // Creating an instance of an express application
 
+const { adminAuth, userAuth } = require("./middlewares/auth");
 
 //Middleware functions: (called in the middle of request chain)
 // When we make an API call, it goes through a middleware chain
@@ -36,11 +37,17 @@ app.get(
 );
 
 
-//
+
+//Handle Auth Middleware for all GET, POST requests etc.
+app.use("/admin", adminAuth);
+
 app.get("/admin/getAllData", (req, res) => {
-    //Logic of fetching all data
     res.send("All data sent!");
-})
+});
+
+app.get("/admin/deleteUser", (req, res) => {
+    res.send("Deleted a user!");
+});
 
 // Fixing the port number in the log message
 app.listen(8888, () => {
