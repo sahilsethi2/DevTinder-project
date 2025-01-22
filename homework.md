@@ -22,4 +22,12 @@ write logic to handle GET, POST, PATCH, DELETE API calls and test them on POSTMa
 explore routing and use of ? , +, (), * in the routes
 use of regex in the routes /a/ , /.*fly$/
 reading the query params in the routes 
-reading the query routes
+reading the dynamic routes
+
+
+Multiple route handlers - Play with the code!!
+next() 
+next() function and errors along with res.send()
+app.use("/route", rH, [rH2, rH3], rH4);
+What is a middleware function
+How ExpressJS basically handles requests behind the scenes

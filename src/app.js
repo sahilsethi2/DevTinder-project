@@ -1,69 +1,48 @@
 const express = require("express");
 
-//basically creating a web server using express
-const app = express(); //creating an instance of an expressjs application
+// Creating a web server using express
+const app = express(); // Creating an instance of an express application
 
-//request handler functions(routes, in short) && order of routes matters a lot!!
 
-//we can add as many route handlers as we want!!
+//Middleware functions: (called in the middle of request chain)
+// When we make an API call, it goes through a middleware chain
+// and it finally goes to the req handler and if it doesnt find
+// the req handler, then it tries to find the error handler.
 
-app.post(
+
+// Request handler functions (routes)
+//GET /users => it checks all the app.xxx("matching route") functions
+app.use("/", (req,res)=>{
+    res.send("Handling /route"); //this will handle all routes
+    next();
+})
+
+// app.use("/route", rH1, [rH2, rH3], rH4, rH5);
+app.get(
     "/user",
-    //next is done to run the 2nd Response!!
-    (req,res,next)=>{
-        console.log("handling the route user!!");
-        // res.send("Response!!"); //suppose we are not handling it here and want to route to the next 2nd response then,
-        next(); //this forwards the router to the next request handler
+    (req, res, next) => {
+        console.log("Handling the route user!!");
+        next(); // Pass control to the next middleware
     },
-);
-app.post("/user", (req,res,next)=>{
-    console.log("Handling the route user!");
-    res.send("2nd route handler");
-});
-
-//this route overrides every other route 
-app.use("/", (req,res,next)=>{
-    // res.send("Namaste from the dashboard!");
-    next();
-});
-
-
-//test this GET api call on POSTMAN API TESTER
-app.get("/user", (req,res,next)=>{
-    // res.send({firstName : "Akshay", lastName : "Saini"})
-    next();
-}),
-app.post("/user", (req,res,next)=>{
-    res.send("Saved data to the database successfully")
-    next();
-}),app.post("/user", (req,res)=>{
-    res.send("Saved data to the database successfully")
-}
+    (req, res,next) => {
+        console.log("Handling the route user 2!");
+        res.send("2nd Response!"); // Sending the final response
+        next(); // Pass control to the next middleware
+    },
+    (req, res) => {
+        console.log("Handling the route user 3!");
+        res.send("3rd Response!"); // Sending the final response
+    }
 );
 
 
+//
+app.get("/admin/getAllData", (req, res) => {
+    //Logic of fetching all data
+    res.send("All data sent!");
+})
 
-app.use("/hello/2", (req,res)=>{
-    res.send("Aabra ka daabra!");
+// Fixing the port number in the log message
+app.listen(8888, () => {
+    console.log("Server is successfully listening on PORT: 8888..");
 });
-
-// write localhost:7777/hello to access this on browser:
-app.use("/hello", (req,res)=>{
-    res.send("Hello hello hello!");
-});
-
-//this will match all the HTTP method API calls to /test
-app.use("/test", (req,res)=>{
-    res.send("Hello from the server!");
-});
-
-
-
-app.listen(3333, ()=>{
-    console.log("Server id successfully listening on PORT:3333..")
-});
-
-
-//run the function in the terminal using (node src/app.js)
-
-
